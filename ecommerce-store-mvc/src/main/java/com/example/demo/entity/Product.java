@@ -16,7 +16,10 @@ public class Product {
 	double productPrice;
 	int productInventory;
 	String productMerchant;
-
+	public Product(int productId) {
+		super();
+		this.productId = productId;
+	}
 //@Override
 	public String toString() {
 		return productName;

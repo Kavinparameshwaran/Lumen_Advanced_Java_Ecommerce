@@ -18,8 +18,12 @@
 		<a href="/list/orders" class="btn btn-success">Get All orders</a> <br>
 		<a href="/list/user" class="btn btn-success">Get user orders</a> <br>
 		<a href="/orderId" class="btn btn-success">Get order by id</a> <br>
-		<a href="" class="btn btn-success">Create new order</a> <br> 
-		<a href="" class="btn btn-success">Update existing order</a>
+		<a href="saveOrder" class="btn btn-success">Create new order</a> <br> 
+		<a href="saveOrder" class="btn btn-success">Update existing order</a>
+	</div>
+	<br>
+	<div style="margin: 50px">
+	<a href="/" class="btn btn-warning">Go to Welcome Page</a>
 	</div>
 </body>
 </html>

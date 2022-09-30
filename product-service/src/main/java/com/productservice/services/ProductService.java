@@ -22,10 +22,6 @@ public class ProductService {
 		return this.repo.findAll();
 	}
 	
-	public Product update(Product entity) {
-		return this.repo.save(entity);
-	}
-	
 	public List<Product> getProductsInventoryGreaterThanZero(){
 		return this.repo.getProductsInventoryGreaterThanZero();
 	}

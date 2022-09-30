@@ -9,13 +9,18 @@
 </head>
 <body style="text-align: center;">
 <br>
+<h1 style="text-align: center;">Product Home Page</h1>
+	<br>
 	<div class="btn-group-vertical">
 		<a href="/list/products" class="btn btn-success">List of Products</a> <br>
 		<a href="/list/merchant" class="btn btn-success">List of Products by Merchant</a> <br>
 		<a href="/save" class="btn btn-success">Create new product</a> <br>
-		<a href="/update" class="btn btn-success">Update existing product</a> <br> 
+		<a href="/save" class="btn btn-success">Update existing product</a> <br> 
 		<a href="/list/available" class="btn btn-success">Products with inventory > 0</a><br> 
 		<a href="/list/not-available" class="btn btn-success">Products with inventory = 0</a>
+	</div>
+	<div style="margin: 50px">
+	<a href="/" class="btn btn-warning">Go to Welcome Page</a>
 	</div>
 </body>
 </html>

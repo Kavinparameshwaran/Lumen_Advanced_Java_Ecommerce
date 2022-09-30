@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Add Product</title>
+<title>Add and update Product</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
@@ -33,8 +33,12 @@
 		</div>
 		<div class="form-group">
 			<input type="submit" value="Add">
-			<button onclick="window.location.href='/product-home'" class="btn btn-danger">Product Home page</button>
+			<input type="submit" value="Update" formaction="save">	
 		</div>
 	</form:form>
+	<div>
+		<button onclick="window.location.href='product-home'" class="btn btn-danger">Product Home page</button>
+	</div>
+	
 </body>
 </html>

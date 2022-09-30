@@ -44,11 +44,6 @@ public class ProductController {
 		return ResponseEntity.ok().body(null);
 	}
 	
-	@PutMapping("/update")
-	public ResponseEntity<Product> update(@RequestBody Product product){
-		Product newProduct = this.service.update(product);
-		return ResponseEntity.ok().body(null);
-	}
 	
 	@PostMapping("/byMerchant")
 	public List<Product> findByProductMerchant(@RequestBody String productMerchant) {

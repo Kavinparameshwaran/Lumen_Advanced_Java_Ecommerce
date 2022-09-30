@@ -12,9 +12,9 @@
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
 </head>
-<body>
+<body style="text-align: center;">
 	<div>
-		<p style="color: #00FF00">${message}</p>
+		<h3 style="color: blue;">${message}</h3> 
 	</div>
 	<br>
 	<div style="text-align: center;">

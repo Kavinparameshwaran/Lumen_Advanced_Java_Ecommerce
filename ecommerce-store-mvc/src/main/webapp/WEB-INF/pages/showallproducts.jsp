@@ -51,6 +51,8 @@ table, tr, td, th {
 			<button onclick="window.location.href='/product-home'"
 			class="btn btn-danger">Product Home page</button>
 	</div>
-
+	<div style="margin: 50px;text-align: center">
+	<a href="/" class="btn btn-warning">Go to Welcome Page</a>
+	</div>
 </body>
 </html>

@@ -1,21 +1,16 @@
 package com.example.demo.controllers;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +24,7 @@ public class ProductAndOrderServiceController {
 	@Autowired
 	private RestTemplate template;
 	private Product productsArray[];
-
+	private Order ordersArray[];
 	public ProductAndOrderServiceController() {
 		super();
 	}
@@ -56,9 +51,6 @@ public class ProductAndOrderServiceController {
 	public String getAllProducts(Model model) {
 		productsArray = this.template.getForObject("http://localhost:5050/api/products", Product[].class);
 		model.addAttribute("list", productsArray);
-		for (Product product : productsArray) {
-			System.out.println(product);
-		}
 		return "showallproducts";
 	}
 
@@ -66,9 +58,6 @@ public class ProductAndOrderServiceController {
 	public String getProductsWithInventoryGreaterThanZero(Model model) {
 		productsArray = this.template.getForObject("http://localhost:5050/api/products/available", Product[].class);
 		model.addAttribute("list", productsArray);
-		for (Product product : productsArray) {
-			System.out.println(product);
-		}
 		return "showallproducts";
 	}
 
@@ -76,9 +65,6 @@ public class ProductAndOrderServiceController {
 	public String getProductsWithInventoryEqualToZero(Model model) {
 		productsArray = this.template.getForObject("http://localhost:5050/api/products/not-available", Product[].class);
 		model.addAttribute("list", productsArray);
-		for (Product product : productsArray) {
-			System.out.println(product);
-		}
 		return "showallproducts";
 	}
 
@@ -89,27 +75,25 @@ public class ProductAndOrderServiceController {
 	}
 
 	@RequestMapping(path = "/save", method = RequestMethod.POST)
-	public String addProduct(@ModelAttribute("product") Product product, Model model) {
+	public String addOrUpdateProduct(@ModelAttribute("product") Product product, Model model) {
+		productsArray = this.template.getForObject("http://localhost:5050/api/products", Product[].class);
 		HttpEntity<Product> request = new HttpEntity<>(product);
-		Product productObject = this.template.postForObject("http://localhost:5050/api/products/add", request,
-				Product.class);
-		model.addAttribute("message", "one Record Added");
+		this.template.postForObject("http://localhost:5050/api/products/add", request,Product.class);
+		boolean needToUpdate=false;
+		for (Product eachProduct : productsArray) {
+			if(eachProduct.getProductId()==product.getProductId()) {
+				needToUpdate=true;
+				break;
+			}
+		}
+		if(needToUpdate) {
+			model.addAttribute("message", "one Record updated");
+		}
+		else {
+			model.addAttribute("message", "one Record Added");
+			
+		}
 		return "addproduct";
-	}
-
-	@RequestMapping(path = "/update", method = RequestMethod.GET)
-	public String initUpdatePage(Model model) {
-		model.addAttribute("product", new Product());
-		return "updateproduct";
-	}
-
-	@RequestMapping(path = "/update", method = RequestMethod.PUT)
-	public String updateProduct(@ModelAttribute("product") Product product, Model model) {
-		HttpEntity<Product> request = new HttpEntity<>(product);
-		Product productObject = this.template.postForObject("http://localhost:5050/api/products/update", request,
-				Product.class);
-		model.addAttribute("message", "one Record updated");
-		return "updateproduct";
 	}
 
 	@RequestMapping(path = "/list/merchant", method = RequestMethod.GET)
@@ -119,9 +103,18 @@ public class ProductAndOrderServiceController {
 
 	@RequestMapping(path = "/list/merchant", method = RequestMethod.POST)
 	public String searchByProductMerchant(@RequestParam("productMerchant") String productMerchant, Model model) {
-		model.addAttribute("list", this.template.postForObject("http://localhost:5050/api/products/byMerchant",
-				productMerchant, Product[].class));
-		return "showallproducts";
+		String message = new StringBuilder("Order with Given Product Merchant Name: ").append(productMerchant).append(" Not Found")
+	.toString();
+		productsArray= this.template.postForObject("http://localhost:5050/api/products/byMerchant",productMerchant, Product[].class);
+		System.out.println(productsArray.length);
+		if(productsArray.length!=0) {
+			model.addAttribute("list",productsArray);
+			return "showallproducts";
+		}
+		else {
+			model.addAttribute("message", message);
+			return "failure";
+		}
 	}
 
 	// ------------------------Order Controller-----------------------------
@@ -131,7 +124,38 @@ public class ProductAndOrderServiceController {
 		model.addAttribute("list", this.template.getForObject("http://localhost:8080/api/orders", Order[].class));
 		return "showallorders";
 	}
-
+	
+	@RequestMapping(path = "/saveOrder", method = RequestMethod.GET)
+	public String initAddOrder(Model model) {
+		LocalDate date=LocalDate.now();
+		model.addAttribute("order", new Order(0, "",date, new Product(0)));
+		return "addorder";
+		
+	}
+	
+	@RequestMapping(path = "/saveOrder", method = RequestMethod.POST)
+	public String addOrUpdateOrder(@ModelAttribute("order") Order order, Model model) {
+		ordersArray = this.template.getForObject("http://localhost:8080/api/orders", Order[].class);
+		HttpEntity<Order> request = new HttpEntity<>(order);
+		this.template.postForObject("http://localhost:8080/api/orders/add", request,Order.class);
+		boolean needToUpdate=false;
+		for (Order eachOrder : ordersArray) {
+			if(eachOrder.getOrderId()==order.getOrderId()) {
+				needToUpdate=true;
+				break;
+			}
+		}
+		if(needToUpdate) {
+			model.addAttribute("message", "one Record updated");
+		}
+		else {
+			model.addAttribute("message", "one Record Added");
+			
+		}
+		return "addorder";
+	}	
+		
+	
 	@RequestMapping(path = "/list/user", method = RequestMethod.GET)
 	public String initSearchByUsers() {
 		return "searchbyuser";
@@ -162,9 +186,7 @@ public class ProductAndOrderServiceController {
 		List<Order> orderList = new ArrayList<>();
 		String message = new StringBuilder("Order with Given OrderId: ").append(orderId).append(" Not Found")
 				.toString();
-		System.out.println("Hello ");
 		orderList.add(this.template.postForObject("http://localhost:8080/api/orders/byOrderId", orderId, Order.class));
-		orderList.forEach(System.out::println);
 		if (orderList.get(0).getOrderId()!=0) {
 			model.addAttribute("list", orderList);
 			return "showallorders";

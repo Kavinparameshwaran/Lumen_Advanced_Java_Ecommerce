@@ -10,11 +10,18 @@ import lombok.experimental.FieldDefaults;
 
 @FieldDefaults(level =AccessLevel.PRIVATE)
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Order {
 int orderId;
 String user;
 private LocalDate orderDate;
 Product product;
+public Order(int orderId, String user, LocalDate orderDate, Product product) {
+	super();
+	this.orderId = orderId;
+	this.user = user;
+	this.orderDate =orderDate;
+	this.product = product;
+}
+
 }

@@ -47,6 +47,8 @@ table, tr, td, th {
 	<button onclick="window.location.href='/order-home'"
 			class="btn btn-danger">Order Home page</button>
 </div>
-
+	<div style="margin: 50px;text-align: center">
+	<a href="/" class="btn btn-warning">Go to Welcome Page</a>
+	</div>
 </body>
 </html>

@@ -12,7 +12,7 @@
 </head>
 <body style="text-align: center;">
 	<h1 style="text-align: center;">Welcome to Kavin E-commerce Store</h1>
-	<div class="btn-group-vertical">
+	<div class="btn-group-vertical" style="margin: 50px">
 		<a href="product-home" class="btn btn-info" >Product Service</a>
 		<br>
 		<a href="order-home" class="btn btn-info">Order Service</a>

@@ -22,7 +22,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "lumen_order_2022")
 public class Order {
@@ -37,6 +36,12 @@ public class Order {
 	@OneToOne
 	@JoinColumn(name = "productId")
 	private Product product;
-
+	public Order(int orderId, String user, LocalDate orderDate, Product product) {
+		super();
+		this.orderId = orderId;
+		this.user = user;
+		this.orderDate =orderDate;
+		this.product = product;
+	}
 
 }
